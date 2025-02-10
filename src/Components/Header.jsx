@@ -15,7 +15,7 @@ const Header = () => {
     Cookie.remove("jwtToken");
     Cookie.remove("userId");
     Cookie.remove("userName");
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   return (

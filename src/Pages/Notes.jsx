@@ -293,7 +293,7 @@ const Notes = () => {
               className="outline-0 mt-1.5 bg-gray-100 py-1.5 px-3 w-full placeholder:text-gray-300"
               placeholder="Content"
             />
-            <div className="flex flex-row items-center justify-between w-full mx-auto">
+            <div className="mt-1 flex flex-row items-center justify-between w-full mx-auto">
               <button
                 onClick={closeCreateModal}
                 className="mt-2 border-2 border-black hover:bg-black hover:text-white transition-colors duration-200 cursor-pointer py-1 px-2.5 rounded flex flex-row items-center gap-1"
@@ -366,7 +366,7 @@ const Notes = () => {
                             placeholder="Content"
                             required
                           />
-                          <div className="flex flex-row items-center justify-between w-full mx-auto">
+                          <div className="mt-1 flex flex-row items-center justify-between w-full mx-auto">
                             <button
                               onClick={closeEditModal}
                               className="mt-2 border-2 border-black hover:bg-black hover:text-white transition-colors duration-200 cursor-pointer py-1 px-2.5 rounded flex flex-row items-center gap-1"
