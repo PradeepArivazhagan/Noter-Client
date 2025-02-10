@@ -275,7 +275,7 @@ const Notes = () => {
           <h1 className="text-xl font-semibold">New Note</h1>
           <form
             onSubmit={onCreateNote}
-            className="flex flex-col mt-1.5 rounded"
+            className="flex flex-col mt-2 rounded"
           >
             <input
               value={title}
@@ -348,7 +348,7 @@ const Notes = () => {
                         <h1 className="text-xl font-semibold">Edit Note</h1>
                         <form
                           onSubmit={handleEditNote}
-                          className="flex flex-col mt-1.5 rounded"
+                          className="flex flex-col mt-2 rounded"
                         >
                           <input
                             value={editTitle}
