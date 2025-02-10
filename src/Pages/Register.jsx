@@ -13,25 +13,18 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
+  
+  //Handling Register Event
   const handleRegister = (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     axios
-      .post("https://noter-server-zyvf.onrender.com/register", { username, password, email })
+      .post("https://noter-server-zyvf.onrender.com/register", {
+        username,
+        password,
+        email,
+      })
       .then((response) => {
         toast.success(response.data.message, {
           style: {
@@ -69,7 +62,7 @@ const Register = () => {
           type="text"
           id="username"
           placeholder="Enter your username"
-          onChange={handleUsernameChange}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <label htmlFor="password" className="mt-3 lg:text-lg font-medium">
@@ -80,7 +73,7 @@ const Register = () => {
           type="password"
           id="password"
           placeholder="Enter your password"
-          onChange={handlePasswordChange}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         <label htmlFor="email" className="mt-3 lg:text-lg font-medium">
@@ -91,7 +84,7 @@ const Register = () => {
           type="email"
           id="email"
           placeholder="Enter your email"
-          onChange={handleEmailChange}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         {error && <p className="text-sm text-red-500 mt-1">{error}</p>}

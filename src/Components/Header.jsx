@@ -1,14 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
-import { IoMdMenu } from "react-icons/io";
 import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import Cookie from "js-cookie";
+import { Link, useNavigate } from "react-router-dom";
+import { IoMdMenu,IoMdClose } from "react-icons/io";
 import { IoLogOutOutline } from "react-icons/io5";
+import Cookie from "js-cookie";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+
   const userName = Cookie.get("userName");
   const jwtToken = Cookie.get("jwtToken");
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {

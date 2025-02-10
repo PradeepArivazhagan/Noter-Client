@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdEdit, MdDelete, MdDone } from "react-icons/md";
+import { IoIosAddCircle, IoMdClose, IoMdSave } from "react-icons/io";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { ThreeDot } from "react-loading-indicators";
+import NoNotes from "../assets/NoNotes.png";
 import axios from "axios";
 import Cookie from "js-cookie";
 import Modal from "react-modal";
-import { IoIosAddCircle, IoMdClose, IoMdSave } from "react-icons/io";
-import NoNotes from "../assets/NoNotes.png";
 import toast from "react-hot-toast";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { ThreeDot } from "react-loading-indicators";
 
+//Styling for Modal
 const customStyles = {
   content: {
     width: "80%",
@@ -26,9 +27,9 @@ const customStyles = {
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
   },
 };
+
 const Notes = () => {
   const userId = Cookie.get("userId");
-  const [loading, setLoading] = useState(false);
 
   const [notes, setNotes] = useState([]);
 
@@ -42,14 +43,16 @@ const Notes = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
 
-  const [showAction, setShowAction] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
+  const [showAction, setShowAction] = useState(null);
   const onClickShowAction = (id) => {
     setShowAction((prev) => (prev === id ? null : id));
   };
 
-  const navigate = useNavigate();
-
+  //Create Modal Functions
   const openCreateModal = () => {
     navigate(`createNote`);
     setIsOpen(true);
@@ -59,6 +62,7 @@ const Notes = () => {
     setIsOpen(false);
   };
 
+  //Edit Modal Functions
   const openEditModal = (id) => {
     navigate(`/notes/editNote/${id}`);
     setEditId(id);
@@ -92,6 +96,7 @@ const Notes = () => {
     setEditId(null);
   };
 
+  //Handling Create Note
   const onCreateNote = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -138,6 +143,7 @@ const Notes = () => {
     }
   };
 
+  //Handling Edit Note
   const handleEditNote = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -189,6 +195,7 @@ const Notes = () => {
     }
   };
 
+  //Handling Delete Note
   const handleDeleteNote = async (id) => {
     const toastId = toast.loading("Loading", {
       style: {
@@ -237,7 +244,7 @@ const Notes = () => {
     }
   };
 
-  //Get all notes of the user when the component is rendered.
+  //Get all notes of the user LoggedIn
   useEffect(() => {
     setLoading(true);
     if (!userId) return;
@@ -254,6 +261,32 @@ const Notes = () => {
       });
   }, [userId]);
 
+  //Empty Note Component
+  const EmptyNote = () => {
+    return (
+      <div className="mt-12 min-h-96 flex flex-col items-center justify-center">
+        <img className="w-52 md:w-56 lg:w-80" src={NoNotes} alt="empty note" />
+        <p className="hidden md:block text-center text-gray-400 mt-12">
+          You have no notes yet. Click the &quot;Create Note&quot; button to
+          start adding new ones.
+        </p>
+        <p className="block md:hidden text-center text-gray-400 mt-12">
+          You have no notes yet. Click the &quot;Add&quot; button to start
+          adding new ones.
+        </p>
+      </div>
+    );
+  };
+
+  //Loader Component
+  const Loader = () => {
+    return (
+      <div className="flex flex-row items-center justify-center h-16 w-full">
+        <ThreeDot color="#000" size="medium" />
+      </div>
+    );
+  };
+
   return (
     <div className="bg-slate-50 min-h-lvh px-6 md:px-20 lg:px-32 py-24 lg:py-28">
       <div className="flex flex-row items-center justify-between">
@@ -264,7 +297,7 @@ const Notes = () => {
         >
           <IoIosAddCircle />
           <span className="hidden md:block">Create Note</span>
-          <span className=" md:hidden">Add</span>
+          <span className="md:hidden">Add</span>
         </button>
         <Modal
           isOpen={modalIsOpen}
@@ -273,10 +306,7 @@ const Notes = () => {
           contentLabel="Create Note"
         >
           <h1 className="text-xl font-semibold">New Note</h1>
-          <form
-            onSubmit={onCreateNote}
-            className="flex flex-col mt-2 rounded"
-          >
+          <form onSubmit={onCreateNote} className="flex flex-col mt-2 rounded">
             <input
               value={title}
               required
@@ -321,9 +351,7 @@ const Notes = () => {
         </Modal>
       </div>
       {loading ? (
-        <div className="flex flex-row items-center justify-center h-16 w-full">
-          <ThreeDot color="#000" size="medium" />
-        </div>
+        <Loader />
       ) : notes.length > 0 ? (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-5">
           {notes.map((note) => (
@@ -419,21 +447,7 @@ const Notes = () => {
           ))}
         </div>
       ) : (
-        <div className="mt-12 min-h-96 flex flex-col items-center justify-center">
-          <img
-            className="w-52 md:w-56 lg:w-80"
-            src={NoNotes}
-            alt="empty note"
-          />
-          <p className="hidden md:block text-center text-gray-400 mt-12">
-            You have no notes yet. Click the &quot;Create Note&quot; button to
-            start adding new ones.
-          </p>
-          <p className="block md:hidden text-center text-gray-400 mt-12">
-            You have no notes yet. Click the &quot;Add&quot; button to start
-            adding new ones.
-          </p>
-        </div>
+        <EmptyNote />
       )}
     </div>
   );

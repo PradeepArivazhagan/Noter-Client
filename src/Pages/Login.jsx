@@ -1,33 +1,28 @@
-import axios from "axios";
-import Cookie from "js-cookie";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDot } from "react-loading-indicators";
+import axios from "axios";
+import Cookie from "js-cookie";
 import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
+  //Handling Login Event
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     axios
-      .post("https://noter-server-zyvf.onrender.com/login", { username, password })
+      .post("https://noter-server-zyvf.onrender.com/login", {
+        username,
+        password,
+      })
       .then((response) => {
         const jwtToken = response.data.jwtToken;
         const userId = response.data.userId;
@@ -71,7 +66,7 @@ const Login = () => {
           type="text"
           id="username"
           placeholder="Enter your username"
-          onChange={handleUsernameChange}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <label htmlFor="password" className="mt-3 lg:text-lg font-medium">
@@ -82,7 +77,7 @@ const Login = () => {
           type="password"
           id="password"
           placeholder="Enter your password"
-          onChange={handlePasswordChange}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         {error && <p className="text-sm text-red-500 mt-1">{error}</p>}

@@ -1,5 +1,5 @@
-import { CiLocationArrow1 } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { CiLocationArrow1 } from "react-icons/ci";
 const Home = () => {
   return (
     <div className="px-10 md:px-20 py-20 bg-slate-50 min-h-lvh flex flex-col items-center justify-center">
