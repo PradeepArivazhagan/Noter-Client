@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <div className="shadow fixed z-10 w-full bg-white py-4 px-6 md:px-20 lg:px-32 flex flex-row items-center justify-between">
       <Link to="/">
-        <h1 className="text-2xl font-semibold">Noter</h1>
+        <h1 className="text-2xl font-bold">Noter</h1>
       </Link>
       {jwtToken === undefined ? (
         <ul className="hidden md:flex flex-row items-center gap-6">

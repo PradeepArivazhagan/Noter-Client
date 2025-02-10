@@ -184,7 +184,7 @@ const Notes = () => {
       });
       console.error(error.message);
     } finally {
-      showAction(false)
+      setShowAction(false);
       setLoading(false);
     }
   };
@@ -239,6 +239,7 @@ const Notes = () => {
 
   //Get all notes of the user when the component is rendered.
   useEffect(() => {
+    setLoading(true);
     if (!userId) return;
     axios
       .get(`https://noter-server-zyvf.onrender.com/notes?userId=${userId}`)
@@ -247,6 +248,9 @@ const Notes = () => {
       })
       .catch((error) => {
         console.error(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [userId]);
 
@@ -316,7 +320,11 @@ const Notes = () => {
           </form>
         </Modal>
       </div>
-      {notes.length > 0 ? (
+      {loading ? (
+        <div className="flex flex-row items-center justify-center h-16 w-full">
+          <ThreeDot color="#000" size="medium" />
+        </div>
+      ) : notes.length > 0 ? (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-5">
           {notes.map((note) => (
             <div key={note._id} className="bg-white rounded-md p-3 shadow">
@@ -411,9 +419,9 @@ const Notes = () => {
           ))}
         </div>
       ) : (
-        <div className="mt-12 flex flex-col items-center justify-center">
+        <div className="mt-12 min-h-96 flex flex-col items-center justify-center">
           <img
-            className="w-44 md:w-60 lg:w-80"
+            className="w-52 md:w-56 lg:w-80"
             src={NoNotes}
             alt="empty note"
           />
@@ -421,9 +429,9 @@ const Notes = () => {
             You have no notes yet. Click the &quot;Create Note&quot; button to
             start adding new ones.
           </p>
-          <p className=" md:hidden text-center text-gray-400 mt-12">
-            You have no notes yet. Click the &quot;Create Note&quot; button to
-            start adding new ones.
+          <p className="block md:hidden text-center text-gray-400 mt-12">
+            You have no notes yet. Click the &quot;Add&quot; button to start
+            adding new ones.
           </p>
         </div>
       )}
