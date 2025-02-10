@@ -39,10 +39,10 @@ const Notes = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
 
-  const [showAction, setShowAction] = useState(false);
+  const [showAction, setShowAction] = useState(null);
 
-  const onClickShowAction = () => {
-    setShowAction(!showAction);
+  const onClickShowAction = (id) => {
+    setShowAction((prev) => (prev === id ? null : id));
   };
 
   const navigate = useNavigate();
@@ -290,7 +290,7 @@ const Notes = () => {
               <div className="flex flex-row justify-between">
                 <h2 className="font-semibold text-xl ">{note.title}</h2>
                 <div className="flex flex-row items-center gap-1">
-                  {showAction && (
+                  {showAction === note._id && (
                     <div className="flex flex-row items-center gap-3 bg-gray-100 rounded-full py-1 px-2">
                       <button
                         onClick={() => openEditModal(note._id)}
@@ -352,10 +352,16 @@ const Notes = () => {
                     </div>
                   )}
                   <button
-                    onClick={onClickShowAction}
-                    className={`p-1 text-xl ${!showAction && "bg-gray-100"} rounded-full cursor-pointer`}
+                    onClick={() => onClickShowAction(note._id)}
+                    className={`p-1 text-xl ${
+                      showAction !== note._id && "bg-gray-100"
+                    } rounded-full cursor-pointer`}
                   >
-                    {showAction ? <IoMdClose /> : <BsThreeDotsVertical />}
+                    {showAction === note._id ? (
+                      <IoMdClose />
+                    ) : (
+                      <BsThreeDotsVertical />
+                    )}
                   </button>
                 </div>
               </div>
