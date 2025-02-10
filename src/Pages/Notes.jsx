@@ -62,7 +62,7 @@ const Notes = () => {
     setEditModalIsOpen(true);
 
     axios
-      .get(`http://localhost:4000/notes/editNote/${id}`)
+      .get(`https://noter-server-zyvf.onrender.com/notes/editNote/${id}`)
       .then((response) => {
         setEditTitle(response.data.note.title);
         setEditContent(response.data.note.content);
@@ -93,7 +93,7 @@ const Notes = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:4000/notes/createNote`,
+        `https://noter-server-zyvf.onrender.com/notes/createNote`,
         {
           userId,
           title,
@@ -136,7 +136,7 @@ const Notes = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:4000/notes/editNote/${editId}`,
+        `https://noter-server-zyvf.onrender.com/notes/editNote/${editId}`,
         {
           title: editTitle,
           content: editContent,
@@ -182,7 +182,7 @@ const Notes = () => {
   const handleDeleteNote = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4000/notes/deleteNote/${id}`
+        `https://noter-server-zyvf.onrender.com/notes/deleteNote/${id}`
       );
       setNotes(notes.filter((note) => note._id !== id));
       toast.success(response.data.message, {
@@ -216,7 +216,7 @@ const Notes = () => {
   useEffect(() => {
     if (!userId) return;
     axios
-      .get(`http://localhost:4000/notes?userId=${userId}`)
+      .get(`https://noter-server-zyvf.onrender.com/notes?userId=${userId}`)
       .then((response) => {
         setNotes(response.data.notes);
       })

@@ -31,7 +31,7 @@ const Register = () => {
     setLoading(true);
     setError(null);
     axios
-      .post("http://localhost:4000/register", { username, password, email })
+      .post("https://noter-server-zyvf.onrender.com/register", { username, password, email })
       .then((response) => {
         toast.success(response.data.message, {
           style: {

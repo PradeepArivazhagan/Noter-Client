@@ -27,7 +27,7 @@ const Login = () => {
     setLoading(true);
     setError(null);
     axios
-      .post("http://localhost:4000/login", { username, password })
+      .post("https://noter-server-zyvf.onrender.com/login", { username, password })
       .then((response) => {
         const jwtToken = response.data.jwtToken;
         const userId = response.data.userId;
