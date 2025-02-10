@@ -43,7 +43,7 @@ const Header = () => {
           </div>
           <button
             onClick={handleLogout}
-            className="py-1.5 px-6 border-2 border-black bg-black hover:bg-gray-800 hover:border-gray-800 transition-colors duration-200 text-white rounded flex items-center gap-2"
+            className="cursor-pointer py-1.5 px-6 border-2 border-black bg-black hover:bg-gray-800 hover:border-gray-800 transition-colors duration-200 text-white rounded flex items-center gap-2"
           >
             Logout
             <IoLogOutOutline />

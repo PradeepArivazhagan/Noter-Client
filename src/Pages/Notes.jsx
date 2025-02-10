@@ -8,10 +8,12 @@ import { IoIosAddCircle, IoMdClose, IoMdSave } from "react-icons/io";
 import NoNotes from "../assets/NoNotes.png";
 import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { ThreeDot } from "react-loading-indicators";
 
 const customStyles = {
   content: {
-    width: "60%",
+    width: "80%",
+    maxWidth: "600px",
     top: "50%",
     left: "50%",
     right: "auto",
@@ -26,6 +28,7 @@ const customStyles = {
 };
 const Notes = () => {
   const userId = Cookie.get("userId");
+  const [loading, setLoading] = useState(false);
 
   const [notes, setNotes] = useState([]);
 
@@ -91,6 +94,7 @@ const Notes = () => {
 
   const onCreateNote = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         `https://noter-server-zyvf.onrender.com/notes/createNote`,
@@ -129,11 +133,14 @@ const Notes = () => {
         },
       });
       console.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEditNote = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.put(
         `https://noter-server-zyvf.onrender.com/notes/editNote/${editId}`,
@@ -176,38 +183,55 @@ const Notes = () => {
         },
       });
       console.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteNote = async (id) => {
+    const toastId = toast.loading("Loading", {
+      style: {
+        border: "1px solid #000000",
+        padding: "14px",
+        color: "#000000",
+      },
+    });
     try {
       const response = await axios.delete(
         `https://noter-server-zyvf.onrender.com/notes/deleteNote/${id}`
       );
       setNotes(notes.filter((note) => note._id !== id));
-      toast.success(response.data.message, {
-        style: {
-          border: "1px solid #000000",
-          padding: "14px",
-          color: "#000000",
-        },
-        iconTheme: {
-          primary: "#2fe053",
-          secondary: "#ffffff",
-        },
-      });
+      toast.success(
+        response.data.message,
+        { id: toastId },
+        {
+          style: {
+            border: "1px solid #000000",
+            padding: "14px",
+            color: "#000000",
+          },
+          iconTheme: {
+            primary: "#2fe053",
+            secondary: "#ffffff",
+          },
+        }
+      );
     } catch (error) {
-      toast.error("Something went wrong", {
-        style: {
-          border: "1px solid #000000",
-          padding: "14px",
-          color: "#000000",
-        },
-        iconTheme: {
-          primary: "#ff0000",
-          secondary: "#ffffff",
-        },
-      });
+      toast.error(
+        "Something went wrong",
+        { id: toastId },
+        {
+          style: {
+            border: "1px solid #000000",
+            padding: "14px",
+            color: "#000000",
+          },
+          iconTheme: {
+            primary: "#ff0000",
+            secondary: "#ffffff",
+          },
+        }
+      );
       console.error(error.message);
     }
   };
@@ -276,8 +300,16 @@ const Notes = () => {
                 type="submit"
                 className="mt-2 border-2 border-black bg-black hover:border-gray-800 hover:bg-gray-800 transition-colors duration-200 cursor-pointer text-white py-1 px-3 rounded flex flex-row items-center gap-1"
               >
-                Done
-                <MdDone />
+                {loading ? (
+                  <div className="">
+                    <ThreeDot color="#ffffff" size="small" />
+                  </div>
+                ) : (
+                  <>
+                    Done
+                    <MdDone />
+                  </>
+                )}
               </button>
             </div>
           </form>
@@ -337,8 +369,16 @@ const Notes = () => {
                               type="submit"
                               className="mt-2 border-2 border-black bg-black hover:bg-gray-800 hover:border-gray-800 transition-colors duration-200 cursor-pointer text-white py-1 px-3 rounded flex flex-row items-center gap-1"
                             >
-                              Save
-                              <IoMdSave />
+                              {loading ? (
+                                <div className="">
+                                  <ThreeDot color="#ffffff" size="small" />
+                                </div>
+                              ) : (
+                                <>
+                                  Save
+                                  <IoMdSave />
+                                </>
+                              )}
                             </button>
                           </div>
                         </form>
