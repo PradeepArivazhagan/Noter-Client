@@ -184,6 +184,7 @@ const Notes = () => {
       });
       console.error(error.message);
     } finally {
+      showAction(false)
       setLoading(false);
     }
   };
@@ -416,7 +417,11 @@ const Notes = () => {
             src={NoNotes}
             alt="empty note"
           />
-          <p className="text-center text-gray-400 mt-12">
+          <p className="hidden md:block text-center text-gray-400 mt-12">
+            You have no notes yet. Click the &quot;Create Note&quot; button to
+            start adding new ones.
+          </p>
+          <p className=" md:hidden text-center text-gray-400 mt-12">
             You have no notes yet. Click the &quot;Create Note&quot; button to
             start adding new ones.
           </p>
