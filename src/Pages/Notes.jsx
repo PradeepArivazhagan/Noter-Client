@@ -356,8 +356,8 @@ const Notes = () => {
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-5">
           {notes.map((note) => (
             <div key={note._id} className="bg-white rounded-md p-3 shadow">
-              <div className="flex flex-row justify-between items-start gap-5">
-                <h2 className="font-semibold text-xl flex-wrap">{note.title}</h2>
+              <div className="flex flex-row justify-between items-start gap-5 ">
+                <h2 className="font-semibold text-xl break-words max-w-[80%] overflow-hidden text-ellipsis">{note.title}</h2>
                 <div className="flex flex-row items-center gap-1">
                   {showAction === note._id && (
                     <div className="flex flex-row items-center gap-3 bg-gray-100 rounded-full py-1 px-2">
@@ -442,7 +442,7 @@ const Notes = () => {
                   </button>
                 </div>
               </div>
-              <p className="mt-2">{note.content}</p>
+              <p className="mt-2 break-words max-w-full overflow-hidden text-ellipsis">{note.content}</p>
             </div>
           ))}
         </div>
