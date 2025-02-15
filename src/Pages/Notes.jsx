@@ -9,6 +9,7 @@ import axios from "axios";
 import Cookie from "js-cookie";
 import Modal from "react-modal";
 import toast from "react-hot-toast";
+import { motion } from "motion/react";
 
 //Styling for Modal
 const customStyles = {
@@ -290,15 +291,26 @@ const Notes = () => {
   return (
     <div className="bg-slate-50 min-h-lvh px-6 md:px-20 lg:px-32 py-24 lg:py-28">
       <div className="flex flex-row items-center justify-between">
-        <h1 className="text-2xl font-bold">My Notes</h1>
-        <button
+        <motion.h1
+          initial={{ x: -100 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1, type: "spring" }}
+          className="text-2xl font-bold"
+        >
+          My Notes
+        </motion.h1>
+        <motion.button
           onClick={openCreateModal}
+          initial={{ x: 100 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1, type: "spring" }}
+          whileHover={{ scale: 1.1, cursor: "pointer" }}
           className="bg-black hover:bg-gray-800 transition-colors duration-200 text-white py-1.5 px-4 rounded cursor-pointer flex flex-row items-center gap-2"
         >
           <IoIosAddCircle />
           <span className="hidden md:block">Create Note</span>
           <span className="md:hidden">Add</span>
-        </button>
+        </motion.button>
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeCreateModal}
@@ -355,12 +367,25 @@ const Notes = () => {
       ) : notes.length > 0 ? (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-5">
           {notes.map((note) => (
-            <div key={note._id} className="bg-white rounded-md p-3 shadow">
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring" }}
+              key={note._id}
+              className="bg-white rounded-md p-3 shadow"
+            >
               <div className="flex flex-row justify-between items-start gap-5 ">
-                <h2 className="font-semibold text-xl break-words max-w-[80%] overflow-hidden text-ellipsis">{note.title}</h2>
+                <h2 className="font-semibold text-xl break-words max-w-[80%] overflow-hidden text-ellipsis">
+                  {note.title}
+                </h2>
                 <div className="flex flex-row items-center gap-1">
                   {showAction === note._id && (
-                    <div className="flex flex-row items-center gap-3 bg-gray-100 rounded-full py-1 px-2">
+                    <motion.div
+                      initial={{ x: 20 }}
+                      animate={{ x: 0 }}
+                      transition={{ duration: 1, type: "spring" }}
+                      className="flex flex-row items-center gap-3 bg-gray-100 rounded-full py-1 px-2"
+                    >
                       <button
                         onClick={() => openEditModal(note._id)}
                         className="rounded-full text-black hover:text-yellow-500 text-xl transition-colors duration-200 cursor-pointer"
@@ -426,7 +451,7 @@ const Notes = () => {
                       >
                         <MdDelete />
                       </button>
-                    </div>
+                    </motion.div>
                   )}
                   <button
                     onClick={() => onClickShowAction(note._id)}
@@ -442,8 +467,10 @@ const Notes = () => {
                   </button>
                 </div>
               </div>
-              <p className="mt-2 break-words max-w-full overflow-hidden text-ellipsis">{note.content}</p>
-            </div>
+              <p className="mt-2 break-words max-w-full overflow-hidden text-ellipsis">
+                {note.content}
+              </p>
+            </motion.div>
           ))}
         </div>
       ) : (
